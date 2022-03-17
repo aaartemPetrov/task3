@@ -3,6 +3,8 @@
 import { customerPreferencesPage } from "../support/page/customerPreferencesPage";
 import { homePage } from "../support/page/homePage";
 import { searchResultPage } from "../support/page/searchResultPage";
+const testData = require('../fixtures/testData.json');
+
 
 describe('Amazon test', () => {
 
@@ -10,12 +12,12 @@ describe('Amazon test', () => {
         homePage.visit();
     })
 
-    it('Click \"all\" top menu button', () => {
+    it('Change language check', () => {
         homePage.getHeader().getTopMenu().clickAllMenuButton();
         homePage.saveChosenLanguageAsVar('oldLanguage');
         homePage.getHeader().getTopMenu().getAllMenu().clickLanguageButton();
         customerPreferencesPage.isOpenedAssert();
-        customerPreferencesPage.chooseLanguageRadioButton('Deutsch');
+        customerPreferencesPage.chooseLanguageRadioButton(testData.language);
         customerPreferencesPage.clickSaveChangesButton();
 
         homePage.isOpenedAssert();
@@ -29,8 +31,8 @@ describe('Amazon test', () => {
     })
 
     it('Search', () => {
-        homePage.searchProduct('Samsung');
-        searchResultPage.getProducts().getTitles().should('contain', 'Samsung');
+        homePage.searchProduct(testData.searchedBrand);
+        searchResultPage.getProducts().getTitles().should('contain', testData.searchedBrand);
     })
 
     it('login', () => {
